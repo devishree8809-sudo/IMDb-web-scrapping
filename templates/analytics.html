@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block page_id %}analytics_page{% endblock %}
+
+{% block title %}Analytics | IMDb Top 250 Scraper{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">Insights</p>
+    <h1>Movie Analytics</h1>
+  </div>
+</div>
+
+{% if has_data %}
+<div class="stats-grid">
+  <div class="stat-card accent-purple">
+    <div class="stat-icon">🎬</div>
+    <div>
+      <p>Total Movies</p>
+      <h3>{{ total_movies }}</h3>
+    </div>
+  </div>
+
+  <div class="stat-card accent-gold">
+    <div class="stat-icon">⭐</div>
+    <div>
+      <p>Average Rating</p>
+      <h3>{{ average_rating }}</h3>
+    </div>
+  </div>
+
+  <div class="stat-card accent-blue">
+    <div class="stat-icon">🏆</div>
+    <div>
+      <p>Highest Rated</p>
+      <h3>{{ highest_rated_title }}</h3>
+    </div>
+  </div>
+
+  <div class="stat-card accent-green">
+    <div class="stat-icon">📉</div>
+    <div>
+      <p>Lowest Rated</p>
+      <h3>{{ lowest_rated_title }}</h3>
+    </div>
+  </div>
+</div>
+
+<div class="analytics-grid">
+  <div class="chart-card">
+    <h2>Top 10 Highest Rated Movies</h2>
+    <canvas id="topMoviesChart"></canvas>
+  </div>
+
+  <div class="chart-card">
+    <h2>Rating Distribution</h2>
+    <canvas id="ratingDistributionChart"></canvas>
+  </div>
+
+  <div class="chart-card full-width">
+    <h2>Movies by Release Year</h2>
+    <canvas id="yearChart"></canvas>
+  </div>
+
+  <div class="chart-card full-width">
+    <h2>Movies by Decade</h2>
+    <canvas id="decadeChart"></canvas>
+  </div>
+</div>
+
+<script>
+  window.chartData = {{ chart_data | tojson }};
+</script>
+{% else %}
+<div class="empty-state">
+  <h2>No analytical data available yet.</h2>
+  <p>Scrape the IMDb Top 250 list to generate charts.</p>
+  <button class="btn btn-primary" data-refresh-url="{{ url_for('refresh_data') }}">Refresh Data</button>
+</div>
+{% endif %}
+{% endblock %}

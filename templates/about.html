@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block page_id %}about_page{% endblock %}
+
+{% block title %}About | IMDb Top 250 Scraper{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">About</p>
+    <h1>IMDb Top 250 Scraper</h1>
+  </div>
+</div>
+
+<div class="about-card">
+  <h2>Project Description</h2>
+  <p>
+    This project collects the IMDb Top 250 movies using Selenium, stores the data in CSV format,
+    and presents it in an interactive dashboard with analytics and search tools.
+  </p>
+
+  <h2>Main Objective</h2>
+  <p>
+    The primary goal is to automate the collection of ranking information from IMDb and create a
+    clean, usable dataset for exploration and analysis.
+  </p>
+
+  <h2>Features</h2>
+  <ul>
+    <li>Metadata extraction for movie rank, title, year, and IMDb rating</li>
+    <li>CSV export and storage</li>
+    <li>Dashboard summary cards</li>
+    <li>Search, filter, and pagination on the movies page</li>
+    <li>Responsive analytics charts</li>
+    <li>Dark and light mode themes</li>
+  </ul>
+
+  <h2>Technologies Used</h2>
+  <ul>
+    <li>Python</li>
+    <li>Flask</li>
+    <li>Selenium</li>
+    <li>webdriver-manager</li>
+    <li>Pandas</li>
+    <li>Chart.js</li>
+    <li>HTML5/CSS3/JavaScript</li>
+  </ul>
+
+  <h2>Workflow</h2>
+  <ol>
+    <li>Open the IMDb Top 250 page using Selenium</li>
+    <li>Wait for dynamic content to load</li>
+    <li>Extract movie metadata using robust selectors</li>
+    <li>Save results to a CSV file</li>
+    <li>Load the data in Flask and visualize it in the dashboard</li>
+  </ol>
+</div>
+{% endblock %}

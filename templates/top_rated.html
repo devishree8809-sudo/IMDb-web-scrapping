@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block page_id %}top_rated{% endblock %}
+
+{% block title %}Top Rated | IMDb Top 250 Scraper{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">Top Rated</p>
+    <h1>🏆 Top 10 Highest Rated Movies</h1>
+  </div>
+  <a href="{{ url_for('movies_page') }}" class="btn btn-secondary">View All Movies</a>
+</div>
+
+{% if has_data and top10 %}
+<div class="panel-grid" style="grid-template-columns: 1fr;">
+  <section class="info-panel">
+    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+      Automatically calculated from the 250 scraped movies, ranked by IMDb Rating
+    </p>
+    <div class="top10-list">
+      {% for movie in top10 %}
+      <div class="top10-card rank-{{ movie.position }}">
+        <div class="ranking-badge">{{ movie.position }}</div>
+        <div class="card-info">
+          <strong class="card-title">{{ movie.title }}</strong>
+          <div class="card-meta">
+            <span class="card-imdb-rank">{{ movie.imdb_rank }}</span>
+            <span style="display: flex; align-items: center; gap: 0.3rem;">
+              <span style="font-weight: 600;">Year:</span> {{ movie.year }}
+            </span>
+          </div>
+        </div>
+        <div class="card-rating">⭐ {{ movie.rating }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+{% elif has_data %}
+<div class="empty-state">
+  <h2>No Top Rated data available</h2>
+  <p>The scraper may not have completed successfully. Try refreshing the data.</p>
+  <button class="btn btn-primary" data-refresh-url="{{ url_for('refresh_data') }}">Refresh Data</button>
+</div>
+{% else %}
+<div class="empty-state">
+  <h2>No Top Rated data available.</h2>
+  <p>Run the scraper to populate the Top 250 dataset.</p>
+  <button class="btn btn-primary" data-refresh-url="{{ url_for('refresh_data') }}">Refresh Data</button>
+</div>
+{% endif %}
+{% endblock %}

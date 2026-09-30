@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}IMDb Top 250 Scraper{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body data-theme="dark" data-page="{% block page_id %}dashboard{% endblock %}">
+    <div class="app-shell">
+      <nav class="navbar">
+        <button id="sidebarToggle" class="sidebar-toggle" aria-label="Toggle sidebar menu" title="Menu">☰</button>
+        <div class="brand-wrap">
+          <div class="brand-mark">IMDb</div>
+          <div class="brand-text">
+            <span class="brand-name">IMDb Top 250 Scraper</span>
+          </div>
+        </div>
+
+        <div class="nav-links">
+          <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+          <a href="{{ url_for('movies_page') }}" class="nav-link">Movies</a>
+          <a href="{{ url_for('analytics_page') }}" class="nav-link">Analytics</a>
+          <a href="{{ url_for('top_rated_page') }}" class="nav-link">Top Rated</a>
+        </div>
+
+        <div class="nav-actions">
+          <button class="btn btn-primary" data-refresh-url="{{ url_for('refresh_data') }}">Refresh Data</button>
+          <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+        </div>
+      </nav>
+
+      <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+          <h2>Menu</h2>
+          <button id="sidebarClose" class="sidebar-close" aria-label="Close sidebar">&times;</button>
+        </div>
+        <nav class="sidebar-nav">
+          <a href="{{ url_for('dashboard') }}" class="sidebar-item">
+            <span class="sidebar-icon">🏠</span>
+            <span class="sidebar-label">Dashboard</span>
+          </a>
+          <a href="{{ url_for('movies_page') }}" class="sidebar-item">
+            <span class="sidebar-icon">🎬</span>
+            <span class="sidebar-label">Top 250 Movies</span>
+          </a>
+          <a href="{{ url_for('top_rated_page') }}" class="sidebar-item">
+            <span class="sidebar-icon">🏆</span>
+            <span class="sidebar-label">Top 10</span>
+          </a>
+          <a href="{{ url_for('analytics_page') }}" class="sidebar-item">
+            <span class="sidebar-icon">📊</span>
+            <span class="sidebar-label">Analytics</span>
+          </a>
+        </nav>
+      </aside>
+
+      <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+      <main class="content-wrapper">
+        {% block content %}{% endblock %}
+      </main>
+
+      <footer class="footer">
+        <p>IMDb Top 250 Scraper © 2026</p>
+      </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>

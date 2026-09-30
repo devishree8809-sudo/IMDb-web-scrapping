@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block page_id %}movies_page{% endblock %}
+
+{% block title %}Movies | IMDb Top 250 Scraper{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">Collection</p>
+    <h1>IMDb Top 250 Movies</h1>
+  </div>
+  <a href="{{ url_for('download_csv') }}" class="btn btn-secondary">Download CSV</a>
+</div>
+
+<div class="filters-panel">
+  <div class="filter-group search-group">
+    <label for="movieSearch">Search</label>
+    <input id="movieSearch" type="text" placeholder="Search by title..." />
+  </div>
+
+  <div class="filter-group">
+    <label for="ratingFilter">Min Rating</label>
+    <select id="ratingFilter">
+      <option value="">All ratings</option>
+      <option value="7">7.0+</option>
+      <option value="8">8.0+</option>
+      <option value="8.5">8.5+</option>
+      <option value="9">9.0+</option>
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label for="yearFilter">Year</label>
+    <select id="yearFilter">
+      <option value="">All years</option>
+      {% for year in years %}
+      <option value="{{ year }}">{{ year }}</option>
+      {% endfor %}
+    </select>
+  </div>
+</div>
+
+{% if has_data %}
+<div class="table-wrap">
+  <table class="movie-table">
+    <thead>
+      <tr>
+        <th data-sort="rank">Rank</th>
+        <th data-sort="title">Movie Title</th>
+        <th data-sort="year">Release Year</th>
+        <th data-sort="rating">IMDb Rating</th>
+      </tr>
+    </thead>
+    <tbody id="movieTableBody"></tbody>
+  </table>
+</div>
+
+<div class="pagination-wrap">
+  <button id="prevPage" class="btn btn-secondary">Previous</button>
+  <span id="pageInfo">Page 1</span>
+  <button id="nextPage" class="btn btn-secondary">Next</button>
+</div>
+<script id="movie-data" type="application/json">{{ movies | tojson }}</script>
+{% else %}
+<div class="empty-state">
+  <h2>No movie data available.</h2>
+  <p>Run the scraper once to populate the IMDb Top 250 data.</p>
+  <button class="btn btn-primary" data-refresh-url="{{ url_for('refresh_data') }}">Refresh Data</button>
+</div>
+{% endif %}
+{% endblock %}

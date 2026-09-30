@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block page_id %}dashboard{% endblock %}
+
+{% block title %}Dashboard | IMDb Top 250 Scraper{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">Overview</p>
+    <h1>Movie Dashboard</h1>
+  </div>
+  <a href="{{ url_for('movies_page') }}" class="btn btn-secondary">View All Movies</a>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card accent-purple">
+    <div class="stat-icon">🎬</div>
+    <div>
+      <p>Total Movies</p>
+      <h3>{{ total_movies }}</h3>
+    </div>
+  </div>
+
+  <div class="stat-card accent-gold">
+    <div class="stat-icon">⭐</div>
+    <div>
+      <p>Highest Rating</p>
+      <h3>{{ highest_rating }}</h3>
+    </div>
+  </div>
+
+  <div class="stat-card accent-blue">
+    <div class="stat-icon">📊</div>
+    <div>
+      <p>Average Rating</p>
+      <h3>{{ average_rating }}</h3>
+    </div>
+  </div>
+
+  <div class="stat-card accent-green">
+    <div class="stat-icon">🏆</div>
+    <div>
+      <p>Top Rated Movie</p>
+      <h3>{{ top_movie }}</h3>
+    </div>
+  </div>
+
+  <div class="stat-card accent-pink">
+    <div class="stat-icon">🕒</div>
+    <div>
+      <p>Last Updated</p>
+      <h3>{{ last_updated }}</h3>
+    </div>
+  </div>
+</div>
+
+{% if has_data %}
+<div class="panel-grid">
+  <section class="info-panel">
+    <h2>Top Rated Films</h2>
+    <ul class="movie-list">
+      {% for movie in top_movies %}
+      <li>
+        <span class="rank-pill">#{{ movie.rank }}</span>
+        <div>
+          <strong>{{ movie.title }}</strong>
+          <small>{{ movie.year }}</small>
+        </div>
+        <span class="rating-value">{{ movie.rating }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="info-panel">
+    <h2>🏆 IMDb Top 10 Highest Rated Movies</h2>
+    <div class="top10-list">
+      {% for movie in top_10 %}
+      <div class="top10-card rank-{{ movie.position }}">
+        <div class="ranking-badge">{{ movie.position }}</div>
+        <div class="card-info">
+          <strong class="card-title">{{ movie.title }}</strong>
+          <div class="card-meta">
+            <span class="card-imdb-rank">{{ movie.imdb_rank }}</span>
+            <span class="card-year">{{ movie.year }}</span>
+          </div>
+        </div>
+        <div class="card-rating">⭐ {{ movie.rating }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="info-panel">
+    <h2>Quick Insights</h2>
+    <div class="insight-box">
+      <span class="insight-label">Best Average</span>
+      <strong>{{ average_rating }}</strong>
+    </div>
+    <div class="insight-box">
+      <span class="insight-label">Top Title</span>
+      <strong>{{ top_movie }}</strong>
+    </div>
+    <div class="insight-box">
+      <span class="insight-label">Dataset</span>
+      <strong>{{ total_movies }} movies</strong>
+    </div>
+  </section>
+
+  <section class="info-panel">
+    <h2>📊 Analytics Summary</h2>
+    <p style="color: var(--text-muted); margin-bottom: 1rem;">Get insights into IMDb's Top 250 movie collection</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
+      <div class="insight-box">
+        <span class="insight-label">Total Movies</span>
+        <strong>{{ total_movies }}</strong>
+      </div>
+      <div class="insight-box">
+        <span class="insight-label">Avg Rating</span>
+        <strong>{{ average_rating }}</strong>
+      </div>
+    </div>
+    <a href="{{ url_for('analytics_page') }}" class="btn btn-secondary" style="margin-top: 1rem; width: 100%;">View Full Analytics</a>
+  </section>
+</div>
+{% else %}
+<div class="empty-state">
+  <h2>No movie data available yet</h2>
+  <p>Run a refresh to scrape the IMDb Top 250 list and generate the CSV data.</p>
+  <button class="btn btn-primary" data-refresh-url="{{ url_for('refresh_data') }}">Refresh Data</button>
+</div>
+{% endif %}
+{% endblock %}
